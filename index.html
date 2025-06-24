@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pelariptan Currency Exchange</title>
+  <style>
+    body {
+      font-family: Calibri, sans-serif;
+      background-color: #f5f7fa;
+      color: #2a2a2a;
+      padding: 2rem;
+    }
+    h1 {
+      color: #00467f;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #dceaf7;
+    }
+    .note {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #555;
+    }
+    .converter {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: #e9f1fb;
+      border: 1px solid #ccddee;
+    }
+    .converter input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 150px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pelariptan Currency Exchange Authority</h1>
+
+  <div class="converter">
+    <label for="amount">Amount in Ⱪ:</label>
+    <input type="number" id="amount" value="1" step="0.01" oninput="updateTable()">
+  </div>
+
+  <h2>Live Conversion Rates</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Currency</th>
+        <th>Symbol</th>
+        <th>Code</th>
+        <th>Converted Value</th>
+      </tr>
+    </thead>
+    <tbody id="currency-table">
+      <!-- Data will be inserted by JS -->
+    </tbody>
+  </table>
+
+  <p class="note">Note: 1 Kēnarū (Ⱪ) is pegged to the Russian Ruble (₽) as the standard of comparison.</p>
+
+  <script>
+    const rates = [
+      { name: "Russian Ruble", symbol: "₽", code: "RUB", rate: 1.00 },
+      { name: "US Dollar", symbol: "$", code: "USD", rate: 0.012 },
+      { name: "Euro", symbol: "€", code: "EUR", rate: 0.011 },
+      { name: "British Pound", symbol: "£", code: "GBP", rate: 0.0095 },
+      { name: "Japanese Yen", symbol: "¥", code: "JPY", rate: 1.91 },
+      { name: "Chinese Yuan", symbol: "元", code: "CNY", rate: 0.087 },
+      { name: "Indian Rupee", symbol: "₹", code: "INR", rate: 1.03 },
+      { name: "Canadian Dollar", symbol: "C$", code: "CAD", rate: 0.017 },
+      { name: "South Korean Won", symbol: "₩", code: "KRW", rate: 16.04 },
+      { name: "Brazilian Real", symbol: "R$", code: "BRL", rate: 0.065 }
+    ];
+
+    function updateTable() {
+      const amount = parseFloat(document.getElementById('amount').value) || 0;
+      const tbody = document.getElementById('currency-table');
+      tbody.innerHTML = '';
+      rates.forEach(rate => {
+        const value = (amount * rate.rate).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        const row = `<tr>
+          <td>${rate.name}</td>
+          <td>${rate.symbol}</td>
+          <td>${rate.code}</td>
+          <td>${rate.symbol}${value}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    window.onload = updateTable;
+  </script>
+</body>
+</html>
